@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebuah Pesan Untukmu ✨</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdf2f4;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --primary: #e11d48;
+            --primary-soft: #ffe4e6;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --border-glass: rgba(225, 29, 72, 0.2);
+            --shadow: 0 20px 40px -15px rgba(225, 29, 72, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #ffe4e6 0%, #fdf2f4 50%, #fce7f3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            color: var(--text-dark);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating Hearts Ambient */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(244, 63, 94, 0.25);
+            font-size: 20px;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.6) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Container Card */
+        .letter-container {
+            position: relative;
+            z-index: 10;
+            max-width: 620px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid var(--border-glass);
+            border-radius: 24px;
+            padding: 40px 36px;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stamp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #fecdd3;
+            padding-bottom: 20px;
+            margin-bottom: 28px;
+        }
+
+        .tag-special {
+            background: var(--primary-soft);
+            color: var(--primary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+        }
+
+        .stamp {
+            font-size: 2rem;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .letter-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2.4rem;
+            color: var(--primary);
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .letter-body {
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: #374151;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .letter-body p {
+            text-align: justify;
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .signature {
+            margin-top: 24px;
+            border-top: 1px solid #fecdd3;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .signature-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--primary);
+        }
+
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .btn {
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e11d48, #f43f5e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(225, 29, 72, 0.4);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            border: 1.5px solid #fda4af;
+            color: #e11d48;
+        }
+
+        .btn-secondary:hover {
+            background: #fff1f2;
+            transform: translateY(-2px);
+        }
+
+        /* Popup Notification */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: popUp 0.3s ease-out;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content h3 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+        }
+
+        .modal-content p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .letter-container {
+                padding: 28px 20px;
+            }
+            .letter-title {
+                font-size: 1.9rem;
+            }
+            .actions {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient floating hearts -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="letter-container">
+        <div class="stamp-header">
+            <span class="tag-special">SURAT DARI HATI 💌</span>
+            <div class="stamp">❤️</div>
+        </div>
+
+        <h1 class="letter-title">Hai, apa kabar kamu di sana?</h1>
+
+        <div class="letter-body">
+            <p>
+                Semoga kamu selalu dalam keadaan sehat dan harimu menyenangkan. Aku menulis ini bukan untuk mengungkit masa lalu atau membuatmu merasa tidak nyaman, tapi murni karena ada perasaan tulus yang rasanya perlu kusampaikan.
+            </p>
+            <p>
+                Setelah sekian waktu kita berjarak, aku belajar banyak hal. Aku menyadari kekuranganku, keegoisanku, dan hal-hal yang dulu mungkin sempat membuatmu kecewa atau lelah. Selama sendiri, aku banyak memperbaiki diri dan merenungi betapa berharganya setiap momen yang pernah kita lalui bersama.
+            </p>
+            <p>
+                Ternyata, sejauh apa pun aku melangkah, tempat yang paling hangat dan membuatku merasa pulang adalah ketika bersamamu. Aku tidak meminta kita langsung kembali seperti dulu, tapi jika kamu berkenan, <span class="highlight">bolehkah kita mulai obrolan baru dari awal lagi?</span>
+            </p>
+            <p>
+                Tanpa beban masa lalu, hanya dua orang yang kini sudah sama-sama lebih dewasa dan saling memahami. Apa pun keputusan dan perasaanmu saat ini, aku akan selalu menghargainya.
+            </p>
+        </div>
+
+        <div class="signature">
+            <div>
+                <small style="color: var(--text-muted); font-size: 0.8rem;">Tertulis dengan tulus,</small>
+                <div class="signature-text">Dari seseorang yang merindukanmu</div>
+            </div>
+            <div style="font-size: 1.6rem;">🌸</div>
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary" onclick="showResponse('accept')">
+                <span>Mari Bicara Lagi</span> 💬
+            </button>
+            <button class="btn btn-secondary" onclick="showResponse('think')">
+                <span>Butuh Waktu Dulu</span> ☕
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Terima Kasih! ❤️</h3>
+            <p id="modalDesc">Aku sangat menghargai responsmu. Nanti kita ngobrol santai ya saat kamu luang.</p>
+            <button class="btn btn-primary" onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate floating hearts
+        const bg = document.getElementById('heartsBg');
+        const icons = ['❤️', '💖', '✨', '🌸', '🤍'];
+        for(let i = 0; i < 20; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerText = icons[Math.floor(Math.random() * icons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
+            heart.style.animationDelay = (Math.random() * 6) + 's';
+            bg.appendChild(heart);
+        }
+
+        function showResponse(type) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const desc = document.getElementById('modalDesc');
+
+            if(type === 'accept') {
+                title.innerText = 'Terima Kasih Banyak! 🥺❤️';
+                desc.innerText = 'Mendengar ini sangat berarti untukku. Kapan pun kamu siap, kabari aku ya. Kita ngopi santai atau sekadar bertukar kabar.';
+            } else {
+                title.innerText = 'Aku Sangat Memahami 😊';
+                desc.innerText = 'Ambillah waktu sebanyak yang kamu butuhkan. Terima kasih sudah membaca pesan ini. Semoga harimu menyenangkan!';
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+
